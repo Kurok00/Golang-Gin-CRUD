@@ -53,21 +53,21 @@ func getStudentDetail(c *gin.Context){
 			return
 		}
 	}
-	c.JSON(http.StatusNotFound, gin.H{"message": Studen not found !})
+	c.JSON(http.StatusNotFound, gin.H{"message": "Studen not found !"})
 }
 
 // Hàm thêm sinh viên
-func addStudent{
+func addStudent(c *gin.Context){
 	var newStudent Student
 	if err := c.ShouldBindJSON(&newStudent); err == nil {
 		newStudent.ID = nextID
 		nextID ++
 		students =  append(students, newStudent)
 		c.JSON(http.StatusCreated, newStudent)
+	}else {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "loi"})
 	}
-	else {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.error()})
-	}
+	
 }
 
 // Hàm cập nhật sinh viên
@@ -80,7 +80,6 @@ func updateStudent(c *gin.Context) {
 			if fmt.Sprint(student.ID) == id {
 				students[i].Name = updatedStudent.Name
 				students[i].Age = updatedStudent.Age
-				students[i].Email = updatedStudent.Email
 				c.JSON(http.StatusOK, students[i])
 				return
 			}
